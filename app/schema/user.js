@@ -3,6 +3,7 @@ const { gql } = require("apollo-server-express");
 const typeDefs = gql`
   extend type Query {
     findAllUser: [User]
+    findOneUser(id: Int): User
   }
 
   type User {
