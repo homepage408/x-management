@@ -9,12 +9,21 @@ const {
   DATABASE_PORT,
 } = process.env;
 
+const {
+  HEROKU_DATABASE,
+  HEROKU_DATABASE_USER,
+  HEROKU_DATABASE_PASSWORD = null,
+  HEROKU_DATABASE_HOST,
+  HEROKU_DATABASE_PORT
+} = process.env
+
+
 const connect = new Pool({
-  user: DATABASE_USER,
-  host: DATABASE_HOST,
-  database: DATABASE,
-  password: DATABASE_PASSWORD,
-  port: DATABASE_PORT,
+  user: HEROKU_DATABASE_USER,
+  host: HEROKU_DATABASE_HOST,
+  database: HEROKU_DATABASE,
+  password: HEROKU_DATABASE_PASSWORD,
+  port: HEROKU_DATABASE_PORT,
 });
 
 connect.connect((err) => {
