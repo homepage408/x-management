@@ -13,13 +13,12 @@ const typeDefs = gql`
   }
 
   extend type Mutation {
-    createTaskPlanner(project_id: Int, task: String, is_check: String): Task
+    createTaskPlanner(project_id: Int, task: String): Task
 
     updateTaskPlanner(
       id: Int
       project_id: Int
       task: String
-      is_check: String
     ): Task
 
     deleteTaskPlanner(id: Int): Task

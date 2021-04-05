@@ -4,7 +4,7 @@ const { ApolloServer, AuthenticationError } = require("apollo-server-express");
 const cors = require("cors");
 const { typeDefs } = require("./schema");
 const { resolvers } = require("./resolvers");
-// const { router: routerIndex } = require("./routes/index");
+const { router: routerIndex } = require("./routes/index");
 const {
   verifyJwt,
   verifyJwtRest,
@@ -12,28 +12,27 @@ const {
 } = require("./common/middleware/auth");
 const cloudinary = require("./common/helpers/cloudinary");
 const { uploadAttachment } = require("./common/helpers/multer");
-// const db = require("./db/models");
 const app = express();
 const router = express.Router();
 
 app.use(express.json());
 
-// app.use(cors());
+app.use(cors());
 
 const server = new ApolloServer({
   typeDefs,
   resolvers,
-  // context: ({ req }) => {
-  //   const auth = req.headers.authorization;
-  //   if (!auth) throw new AuthenticationError("you must be logged in");
-  //   const result = verifyJwt(auth);
-  //   payload = {
-  //     auth: result,
-  //   };
-  //   return {
-  //     payload
-  //   };
-  // },
+  context: ({ req }) => {
+    const auth = req.headers.authorization;
+    if (!auth) throw new AuthenticationError("you must be logged in");
+    const result = verifyJwt(auth);
+    payload = {
+      auth: result,
+    };
+    return {
+      payload
+    };
+  },
   playground: {
     settings: {
       "editor.theme": "light",
@@ -75,8 +74,8 @@ app.patch(
   }
 );
 
-// app.use("/api", routerIndex);
-// app.use(router);
+app.use("/api", routerIndex);
+app.use(router);
 
 app.listen(process.env.PORT || port, () => {
   console.log(`Example app listening at http://localhost:${port}`);
