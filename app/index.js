@@ -12,6 +12,7 @@ const {
 } = require("./common/middleware/auth");
 const cloudinary = require("./common/helpers/cloudinary");
 const { uploadAttachment } = require("./common/helpers/multer");
+const connect = require("../config/connection");
 const app = express();
 const router = express.Router();
 
@@ -30,7 +31,7 @@ const server = new ApolloServer({
       auth: result,
     };
     return {
-      payload
+      payload,
     };
   },
   playground: {
@@ -49,20 +50,15 @@ app.get("/", async (req, res) => {
 });
 
 app.patch(
-  "/upload/attachment/:id",
-  [verifyJwtRest, permit("worker")],
+  "/upload/attachment/:id",[verifyJwtRest,permit("worker")],
   uploadAttachment.single("file"),
   async (req, res) => {
     try {
       const result = await cloudinary.uploader.upload(req.file.path);
-      const newData = {
-        attachment: result.url,
-      };
-      const data = await db.task.update(newData, {
-        where: {
-          id: req.params.id,
-        },
-      });
+      const data = await connect.query(
+        "UPDATE projects SET attachment=$1 WHERE id=$2",
+        [result.url, req.params.id]
+      );
       if (data) {
         res.json({ message: "berhasil" });
       }
