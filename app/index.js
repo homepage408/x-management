@@ -12,13 +12,12 @@ const {
 } = require("./common/middleware/auth");
 const cloudinary = require("./common/helpers/cloudinary");
 const { uploadAttachment } = require("./common/helpers/multer");
-// const db = require("./db/models");
 const app = express();
 const router = express.Router();
 
 app.use(express.json());
 
-// app.use(cors());
+app.use(cors());
 
 const server = new ApolloServer({
   typeDefs,
