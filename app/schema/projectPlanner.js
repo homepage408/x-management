@@ -40,8 +40,6 @@ const typeDefs = gql`
 
     updateStatusProjectPlanner(id: Int, status: String): Project
 
-    updateIsReadProjectPlanner(id: Int, is_read: Boolean): Project
-
     deleteProjectPlanner(id: Int): Project
   }
 `;
