@@ -38,6 +38,10 @@ const typeDefs = gql`
       due_date: String
     ): Project
 
+    updateStatusProjectPlanner(id: Int, status: String): Project
+
+    updateIsReadProjectPlanner(id: Int, is_read: Boolean): Project
+
     deleteProjectPlanner(id: Int): Project
   }
 `;

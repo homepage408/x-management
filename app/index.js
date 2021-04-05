@@ -4,7 +4,7 @@ const { ApolloServer, AuthenticationError } = require("apollo-server-express");
 const cors = require("cors");
 const { typeDefs } = require("./schema");
 const { resolvers } = require("./resolvers");
-// const { router: routerIndex } = require("./routes/index");
+const { router: routerIndex } = require("./routes/index");
 const {
   verifyJwt,
   verifyJwtRest,
@@ -75,8 +75,8 @@ app.patch(
   }
 );
 
-// app.use("/api", routerIndex);
-// app.use(router);
+app.use("/api", routerIndex);
+app.use(router);
 
 app.listen(process.env.PORT || port, () => {
   console.log(`Example app listening at http://localhost:${port}`);

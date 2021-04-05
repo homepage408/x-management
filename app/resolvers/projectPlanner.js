@@ -67,6 +67,45 @@ const resolvers = {
         throw new Error(error);
       }
     },
+
+    async updateStatusProjectPlanner(parent, args, { payload }) {
+      try {
+        const data = await connect.query("SELECT * FROM projects WHERE id=$1", [
+          args.id,
+        ]);
+        console.log(data.rows[0] !== undefined);
+        if (data.rows[0] !== undefined) {
+          const status = await connect.query(
+            "UPDATE projects SET status=$1 WHERE id=$2 RETURNING *",
+            [args.status, args.id]
+          );
+          return status.rows[0];
+        } else {
+          throw new Error("data doesn't exist");
+        }
+      } catch (error) {
+        throw new Error(error);
+      }
+    },
+
+    async updateIsReadProjectPlanner(parent, args, { payload }) {
+      try {
+        const data = await connect.query("SELECT * FROM projects WHERE id=$1", [
+          args.id,
+        ]);
+        if (data.rows[0] !== undefined) {
+          const status = await connect.query(
+            "UPDATE projects SET is_read=$1 WHERE id=$2 RETURNING *",
+            [args.is_read, args.id]
+          );
+          return status.rows[0];
+        } else {
+          throw new Error("data doesn't exist");
+        }
+      } catch (error) {
+        throw new Error(error);
+      }
+    },
   },
 };
 
