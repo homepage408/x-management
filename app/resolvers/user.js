@@ -12,6 +12,14 @@ const resolvers = {
         throw new Error(error);
       }
     },
+
+    async findOneUser(parent, args, { payload }) {
+      let data = await connect.query(
+        "SELECT * FROM users WHERE id=$1",
+        [args.id]
+      );
+      return data.rows[0];
+    },
   },
 
   Mutation: {
