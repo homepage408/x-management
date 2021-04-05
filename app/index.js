@@ -50,7 +50,7 @@ app.get("/", async (req, res) => {
 });
 
 app.patch(
-  "/upload/attachment/:id",
+  "/upload/attachment/:id",[verifyJwtRest,permit("worker")],
   uploadAttachment.single("file"),
   async (req, res) => {
     try {
