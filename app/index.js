@@ -22,17 +22,17 @@ app.use(cors());
 const server = new ApolloServer({
   typeDefs,
   resolvers,
-  // context: ({ req }) => {
-  //   const auth = req.headers.authorization;
-  //   if (!auth) throw new AuthenticationError("you must be logged in");
-  //   const result = verifyJwt(auth);
-  //   payload = {
-  //     auth: result,
-  //   };
-  //   return {
-  //     payload
-  //   };
-  // },
+  context: ({ req }) => {
+    const auth = req.headers.authorization;
+    if (!auth) throw new AuthenticationError("you must be logged in");
+    const result = verifyJwt(auth);
+    payload = {
+      auth: result,
+    };
+    return {
+      payload
+    };
+  },
   playground: {
     settings: {
       "editor.theme": "light",
