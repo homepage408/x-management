@@ -6,7 +6,7 @@ const typeDefs = gql`
 
   type Project {
     id: Int
-    assignee: User
+    assignee: Int
     title: String
     description: String
     status: String
