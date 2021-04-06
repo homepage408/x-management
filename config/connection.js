@@ -42,14 +42,4 @@ connect.connect((err) => {
   // connect.end();
 });
 
-// pool.query("SELECT NOW()", (err, res) => {
-//   // console.log(err, res);
-//   if(err) {
-//     console.log("Masalah Koneksi");
-//     throw new Error(err)
-//   };
-//   console.log("Terkoneksi");
-//   pool.end();
-// });
-
 module.exports = connect;

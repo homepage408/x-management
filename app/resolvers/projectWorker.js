@@ -9,6 +9,7 @@ const resolvers = {
             "SELECT * FROM projects WHERE assignee=$1 AND status=$2",
             [payload.auth.id,"approve"]
           );
+          console.log(data.rows);
           return data.rows;
         } else {
           throw new Error("you don't have permission");
