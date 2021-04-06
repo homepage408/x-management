@@ -6,7 +6,8 @@ const resolvers = {
       try {
         if (payload.auth.role === "supervisor") {
           const data = await connect.query(
-            "SELECT * FROM projects INNER JOIN users ON (projects.assignee = users.id)"
+            "SELECT * FROM projects WHERE status IN ($1,$2)",
+            ["submit", "done"]
           );
           return data.rows;
         } else {
