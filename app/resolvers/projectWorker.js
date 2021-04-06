@@ -7,7 +7,7 @@ const resolvers = {
         if (payload.auth.role === "worker") {
           const data = await connect.query(
             "SELECT * FROM projects WHERE assignee=$1 AND status=$2",
-            [args.id,"approve"]
+            [payload.auth.id,"approve"]
           );
           return data.rows;
         } else {

@@ -5,7 +5,10 @@ const resolvers = {
     async findAllProjectPlanner(parent, _, { payload }) {
       try {
         if (payload.auth.role === "planner") {
-          let data = await connect.query("SELECT * FROM projects");
+          let data = await connect.query(
+            'SELECT * FROM projects LEFT JOIN users AS "User" ON ("User"."id" = projects.assignee)'
+          );
+          console.log(data);
           return data.rows;
         } else {
           throw new Error("you don't have permission");
@@ -108,8 +111,6 @@ const resolvers = {
         throw new Error(error);
       }
     },
-
-    
   },
 };
 

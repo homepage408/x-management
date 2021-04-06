@@ -69,6 +69,33 @@ const resolvers = {
       }
     },
 
+    async updateUser(parent, args, { payload }) {
+      try {
+        const dataUser = await connect.query(
+          "SELECT username,email FROM users WHERE username=$1 OR email=$2",
+          [args.username, args.email]
+        );
+        console.log(dataUser);
+        const { salt, hash } = hashing(args.password);
+        if (payload.auth.role === "supervisor") {
+          if (dataUser.rows[0] === undefined) {
+            // throw new Error("Data Kosong");
+            const data = await connect.query(
+              "UPDATE users SET fullname=$1,username=$2,email=$3,password=$4,salt=$5,role=$6 WHERE id=$7 RETURNING *",
+              [args.fullname, args.username, args.email, hash, salt, args.role,args.id]
+            );
+            return data.rows[0];
+          } else if (args.username == dataUser.rows[0].username) {
+            throw new Error("Username sudah ada");
+          } else if (args.email == dataUser.rows[0].email) {
+            throw new Error("email sudah digunakan");
+          }
+        }
+      } catch (error) {
+        throw new Error(error);
+      }
+    },
+
     async deleteUser(parent, args, { pyload }) {
       try {
         if (payload.auth.role === "supervisor") {
