@@ -18,6 +18,14 @@ const {
 } = process.env
 
 
+// const connect = new Pool({
+//   user: HEROKU_DATABASE_USER,
+//   host: HEROKU_DATABASE_HOST,
+//   database: HEROKU_DATABASE,
+//   password: HEROKU_DATABASE_PASSWORD,
+//   port: HEROKU_DATABASE_PORT,
+// });
+
 const connect = new Pool({
   user: DATABASE_USER,
   host: DATABASE_HOST,

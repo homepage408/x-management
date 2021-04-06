@@ -2,11 +2,13 @@ const connect = require("./../../config/connection");
 
 const resolvers = {
   Query: {
-    async findAllTaskWorker(parent, _, { payload }) {
+    async findAllTaskWorker(parent, args, { payload }) {
       try {
         if (payload.auth.role === "worker") {
           let findTask = await connect.query(
-            "SELECT assignee, title, task FROM projects INNER JOIN tasks on projects.id = tasks.project_id WHERE assigne = $1",
+            `SELECT assignee, tasks.id , project_id, task, is_check FROM tasks 
+            JOIN projects ON tasks.project_id = projects.id 
+            WHERE assignee=$1`,
             [args.assignee]
           );
           return findTask.rows;
