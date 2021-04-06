@@ -2,13 +2,13 @@ const { gql } = require ("apollo-server-express")
 
 const typeDefs = gql`
     extend type Query {
-        findAllTaskWorker : [Task]
+        findAllTaskWorker (assignee : Int) : [Task]
     }
 
     extend type Mutation {
         isCheck(
             id : Int
-            is_check : String
+            is_check : Boolean
         ): Task
     }
 
