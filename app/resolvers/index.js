@@ -6,9 +6,11 @@ const { resolvers: projectWorker } = require("./projectWorker");
 
 const { resolvers: taskPlanner} = require("./taskPlanner")
 const { resolvers: taskWorker} = require("./taskWorker")
-const { resolvers: note} = require("./note")
+const { resolvers: noteWorker} = require("./noteWorker")
+const { resolvers: noteSupervisor} = require("./noteSupervisor")
 
-const resolvers = lodash.merge(user, projectPlanner, projectSupervisor, projectWorker,taskPlanner,taskWorker,note);
+
+const resolvers = lodash.merge(user, projectPlanner, projectSupervisor, projectWorker,taskPlanner,taskWorker,noteWorker,noteSupervisor);
 
 
 module.exports = {

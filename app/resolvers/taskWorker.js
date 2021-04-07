@@ -8,8 +8,8 @@ const resolvers = {
           let findTask = await connect.query(
             `SELECT assignee, tasks.id , project_id, task, is_check FROM tasks 
             JOIN projects ON tasks.project_id = projects.id 
-            WHERE assignee=$1`,
-            [args.assignee]
+            WHERE assignee=$1, project_id=$2`,
+            [args.assignee, args.project_id]
           );
           return findTask.rows;
         } else {
