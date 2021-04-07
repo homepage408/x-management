@@ -6,9 +6,10 @@ const resolvers = {
       try {
         if (payload.auth.role === "planner") {
           let data = await connect.query(
-            'SELECT * FROM projects LEFT JOIN users AS "User" ON ("User"."id" = projects.assignee)'
+            "SELECT * FROM projects WHERE status IN ($1,$2)",
+            ["submit", "done"]
           );
-          console.log(data);
+          // console.log(data);
           return data.rows;
         } else {
           throw new Error("you don't have permission");
