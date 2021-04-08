@@ -32,6 +32,21 @@ const resolvers = {
         throw new Error(error);
       }
     },
+
+    async findAllUserWorker(parent, args, { payload }) {
+      try {
+        // if (payload.auth.role === "planner") {
+        let data = await connect.query("SELECT * FROM users WHERE role=$1", [
+          "worker",
+        ]);
+        return data.rows;
+        // } else {
+        //   throw new Error("you don't have permission");
+        // }
+      } catch (error) {
+        throw new Error(error);
+      }
+    },
   },
 
   Mutation: {
@@ -82,7 +97,15 @@ const resolvers = {
             // throw new Error("Data Kosong");
             const data = await connect.query(
               "UPDATE users SET fullname=$1,username=$2,email=$3,password=$4,salt=$5,role=$6 WHERE id=$7 RETURNING *",
-              [args.fullname, args.username, args.email, hash, salt, args.role,args.id]
+              [
+                args.fullname,
+                args.username,
+                args.email,
+                hash,
+                salt,
+                args.role,
+                args.id,
+              ]
             );
             return data.rows[0];
           } else if (args.username == dataUser.rows[0].username) {

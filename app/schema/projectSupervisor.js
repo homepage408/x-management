@@ -5,10 +5,11 @@ const typeDefs = gql`
   }
   extend type Mutation {
     updateStatusProjectSupervisor(id: Int, status: String): Project
-
+    updateStatusReturnSupervisor(id: Int): Project
+    updateStatusReturnToWorkerSupervisor(id: Int): Project
   }
 `;
 
-module.exports={
-    typeDefs
-}
+module.exports = {
+  typeDefs,
+};
