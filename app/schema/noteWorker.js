@@ -2,28 +2,21 @@ const { gql } = require("apollo-server-express")
 
 const typeDefs = gql`
     extend type Query {
-        findAllNote : [Note]
+        findAllNoteWorker (id : Int project_id: Int): [Note]
     }
-
-    type Note {
-        id : Int
-        project_id : Int
-        note : String
-    }
-
     extend type Mutation {
-        createNote(
+        createNoteWorker(
             project_id : Int
             note : String
         ): Note
 
-        updateNote(
+        updateNoteWorker(
             id : Int
             project_id : Int
             note : String
         ): Note
 
-        deleteNote(
+        deleteNoteWorker(
             id:Int
         ):Note
     }

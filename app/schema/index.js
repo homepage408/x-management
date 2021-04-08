@@ -6,7 +6,8 @@ const { typeDefs: projectWorker } = require("./projectWorker");
 
 const { typeDefs: taskPlanner} = require("./taskPlanner")
 const { typeDefs: taskWorker} = require("./taskWorker")
-const { typeDefs: note} = require("./note")
+const { typeDefs: noteWorker} = require("./noteWorker")
+const { typeDefs: noteSupervisor} = require("./noteSupervisor")
 
 
 const root = gql`
@@ -19,7 +20,7 @@ const root = gql`
 `;
 
 
-const typeDefs = [root, user, projectPlanner, projectSupervisor, projectWorker,taskPlanner, taskWorker, note];
+const typeDefs = [root, user, projectPlanner, projectSupervisor, projectWorker,taskPlanner, taskWorker, noteWorker, noteSupervisor];
 
 module.exports = {
   typeDefs,
