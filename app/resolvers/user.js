@@ -35,14 +35,14 @@ const resolvers = {
 
     async findAllUserWorker(parent, args, { payload }) {
       try {
-        // if (payload.auth.role === "planner") {
-        let data = await connect.query("SELECT * FROM users WHERE role=$1", [
-          "worker",
-        ]);
-        return data.rows;
-        // } else {
-        //   throw new Error("you don't have permission");
-        // }
+        if (payload.auth.role === "planner") {
+          let data = await connect.query("SELECT * FROM users WHERE role=$1", [
+            "worker",
+          ]);
+          return data.rows;
+        } else {
+          throw new Error("you don't have permission");
+        }
       } catch (error) {
         throw new Error(error);
       }

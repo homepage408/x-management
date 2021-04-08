@@ -2,6 +2,7 @@ const { gql } = require("apollo-server-express");
 const typeDefs = gql`
   extend type Query {
     findAllProjectPlanner: [Project]
+    findOneProjectPlanner(id: Int): Project
   }
 
   type Project {
@@ -15,6 +16,8 @@ const typeDefs = gql`
     is_read: Boolean
     start_date: String
     due_date: String
+    worker: [User]
+    notes: [Note]
   }
 
   extend type Mutation {
