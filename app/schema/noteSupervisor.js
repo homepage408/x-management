@@ -1,34 +1,24 @@
-const { gql } = require("apollo-server-express")
+const { gql } = require("apollo-server-express");
 
 const typeDefs = gql`
-    extend type Query {
-        findAllNoteSupervisor : [Note]
-    }
+  extend type Query {
+    findAllNoteSupervisor: [Note]
+  }
 
-    type Note {
-        id : Int
-        project_id : Int
-        note : String
-    }
+  type Note {
+    id: Int
+    project_id: Int
+    note: String
+  }
 
-    extend type Mutation {
-        createNoteSupervisor(
-            project_id : Int
-            note : String
-        ): Note
+  extend type Mutation {
+    createNoteSupervisor(project_id: Int, note: String): Note
 
-        updateNoteSupervisor(
-            id : Int
-            project_id : Int
-            note : String
-        ): Note
+    updateNoteSupervisor(id: Int, project_id: Int, note: String): Note
 
-        deleteNoteSupervisor(
-            id:Int
-        ):Note
-    }
-
+    deleteNoteSupervisor(id: Int): Note
+  }
 `;
 module.exports = {
-    typeDefs,
-}
+  typeDefs,
+};

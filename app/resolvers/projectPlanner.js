@@ -6,7 +6,12 @@ const resolvers = {
       try {
         if (payload.auth.role === "planner") {
           const data = await connect.query(
-            "SELECT * FROM projects WHERE created_by=$1 AND status IN($2,$3,$4,$5,$6)",
+            `SELECT DISTINCT projects.id,projects.title,projects.description,projects.status,projects.attachment,
+            projects.is_read,projects.start_date,projects.due_date,projects.created_by, 
+            member_project.project_id, from projects 
+            INNER JOIN member_project ON projects.id = member_project.project_id 
+            LEFT JOIN notes ON projects.id = notes.project_id 
+            WHERE created_by=$1 AND status IN($2,$3,$4,$5,$6)`,
             [
               payload.auth.id,
               "submit",
@@ -16,10 +21,28 @@ const resolvers = {
               "complete",
             ]
           );
-
+          // console.log(data.rows);
           return data.rows;
         } else {
           throw new Error("you don't have permission");
+        }
+      } catch (error) {
+        throw new Error(error);
+      }
+    },
+
+    async findOneProjectPlanner(parent, args, { payload }) {
+      try {
+        if (payload.auth.role === "planner") {
+          const data = await connect.query(
+            `SELECT DISTINCT projects.id,projects.title,projects.description,projects.status,projects.attachment,
+          projects.is_read,projects.start_date,projects.due_date,projects.created_by, 
+          member_project.project_id from projects 
+          INNER JOIN member_project 
+          ON projects.id = member_project.project_id 
+          WHERE projects.id=${args.id}`
+          );
+          return data.rows[0];
         }
       } catch (error) {
         throw new Error(error);
@@ -33,6 +56,20 @@ const resolvers = {
         `SELECT * FROM users WHERE users.id IN(${createProjectPlanner.created_by});`
       );
       return data.rows[0];
+    },
+    worker: async (findAllProjectPlanner) => {
+      const data = await connect.query(
+        `SELECT * FROM users 
+        INNER JOIN member_project
+        ON users.id = member_project.user_id WHERE member_project.project_id IN(${findAllProjectPlanner.project_id});`
+      );
+      return data.rows;
+    },
+    notes: async (findAllProjectPlanner) => {
+      const data = await connect.query(
+        `SELECT * FROM notes WHERE notes.project_id IN(${findAllProjectPlanner.project_id})`
+      );
+      return data.rows;
     },
   },
 
