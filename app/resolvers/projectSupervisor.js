@@ -6,8 +6,8 @@ const resolvers = {
       try {
         if (payload.auth.role === "supervisor") {
           const data = await connect.query(
-            "SELECT * FROM projects WHERE status IN ($1,$2)",
-            ["submit", "done"]
+            "SELECT * FROM projects WHERE status IN ($1,$2,$3,$4)",
+            ["submit", "done", "return", "return to worker", "complete"]
           );
           return data.rows;
         } else {
@@ -24,8 +24,8 @@ const resolvers = {
       try {
         if (payload.auth.role === "supervisor") {
           const data = await connect.query(
-            "UPDATE projects SET status=$1 RETURNING *",
-            [args.status]
+            "UPDATE projects SET status=$1 WHERE id=$2 RETURNING *",
+            [args.status, args.id]
           );
           console.log(data.rows);
           return data.rows[0];

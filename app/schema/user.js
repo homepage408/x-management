@@ -4,6 +4,7 @@ const typeDefs = gql`
   extend type Query {
     findAllUser: [User]
     findOneUser(id: Int): User
+    findAllUserWorker: [User]
   }
 
   type User {

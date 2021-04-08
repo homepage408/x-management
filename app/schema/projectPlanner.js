@@ -6,7 +6,8 @@ const typeDefs = gql`
 
   type Project {
     id: Int
-    assignee: Int
+    created_by: User
+    assignee: [User]
     title: String
     description: String
     status: String
@@ -18,19 +19,9 @@ const typeDefs = gql`
 
   extend type Mutation {
     createProjectPlanner(
-      assignee: Int
+      created_by: Int
       title: String
-      description: String
-      status: String
-      is_read: Boolean
-      start_date: String
-      due_date: String
-    ): Project
-
-    updateProjectPlanner(
-      id: Int
-      assignee: Int
-      title: String
+      assignee: [Int]
       description: String
       status: String
       is_read: Boolean

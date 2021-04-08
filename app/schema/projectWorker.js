@@ -5,7 +5,8 @@ const typeDefs = gql`
         findAllProjectWorker: [Project]
     }
     extend type Mutation {
-        updateIsReadProjectPlanner(id: Int, is_read: Boolean): Project
+        updateIsReadProjectWorker(id: Int, is_read: Boolean): Project
+        updateStatusProjectWorker(id: Int, status: String): Project
     }
 `
 module.exports={
