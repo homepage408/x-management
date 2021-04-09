@@ -20,6 +20,17 @@ const typeDefs = gql`
     notes: [Note]
   }
 
+  type ProjectResult{
+    id: Int
+    title: String
+    description: String
+    status: String
+    attachment: String
+    is_read: Boolean
+    start_date: String
+    due_date: String
+  }
+
   extend type Mutation {
     createProjectPlanner(
       created_by: Int

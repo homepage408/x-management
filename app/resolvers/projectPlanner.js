@@ -7,8 +7,8 @@ const resolvers = {
         if (payload.auth.role === "planner") {
           const data = await connect.query(
             `SELECT DISTINCT projects.id,projects.title,projects.description,projects.status,projects.attachment,
-            projects.is_read,projects.start_date,projects.due_date,projects.created_by, 
-            member_project.project_id, from projects 
+            projects.is_read,projects.start_date,projects.due_date,projects.created_by, notes.project_id, notes.note,
+            member_project.project_id from projects 
             INNER JOIN member_project ON projects.id = member_project.project_id 
             LEFT JOIN notes ON projects.id = notes.project_id 
             WHERE created_by=$1 AND status IN($2,$3,$4,$5,$6)`,
@@ -35,7 +35,7 @@ const resolvers = {
       try {
         if (payload.auth.role === "planner") {
           const data = await connect.query(
-            `SELECT DISTINCT projects.id,projects.title,projects.description,projects.status,projects.attachment,
+          `SELECT DISTINCT projects.id,projects.title,projects.description,projects.status,projects.attachment,
           projects.is_read,projects.start_date,projects.due_date,projects.created_by, 
           member_project.project_id from projects 
           INNER JOIN member_project 
@@ -59,7 +59,7 @@ const resolvers = {
     },
     worker: async (findAllProjectPlanner) => {
       const data = await connect.query(
-        `SELECT * FROM users 
+        `SELECT users.id,users.fullname FROM users 
         INNER JOIN member_project
         ON users.id = member_project.user_id WHERE member_project.project_id IN(${findAllProjectPlanner.project_id});`
       );

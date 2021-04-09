@@ -6,10 +6,8 @@ const resolvers = {
       try {
         if (payload.auth.role === "worker") {
           let findTask = await connect.query(
-            `SELECT assignee, tasks.id , project_id, task, is_check FROM tasks 
-            JOIN projects ON tasks.project_id = projects.id 
-            WHERE assignee=$1`,
-            [args.assignee]
+            `SELECT * from tasks WHERE project_id=$1`,
+            [args.project_id]
           );
           return findTask.rows;
         } else {
