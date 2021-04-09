@@ -77,7 +77,7 @@ const resolvers = {
             [args.id]
           );
           // console.log(args.note);
-          console.log(data.rows[0].id);
+          // console.log(data.rows[0].id);
           const note = await connect.query(
             `INSERT INTO notes (project_id,note) VALUES($1,$2)`,
             [data.rows[0].id, args.note]
@@ -89,6 +89,29 @@ const resolvers = {
         throw new Error(error);
       }
     },
+
+    async updateStatusReturnToWorkerSupervisor(parent, args,{payload}){
+      try {
+        if (payload.auth.role === "supervisor") {
+          const data = await connect.query(
+            `UPDATE projects SET status='return to worker' WHERE id=$1 RETURNING *`,
+            [args.id]
+          );
+          // console.log(args.note);
+          // console.log(data.rows[0].id);
+          const note = await connect.query(
+            `INSERT INTO notes (project_id,note) VALUES($1,$2)`,
+            [data.rows[0].id, args.note]
+          );
+          // console.log(data.rows);
+          return data.rows[0];
+        } else {
+          throw new Error("you dont have permission")
+        }
+      } catch (error) {
+        throw new Error(error)
+      }
+    }
   },
 };
 module.exports = {

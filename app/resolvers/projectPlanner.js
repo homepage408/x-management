@@ -106,11 +106,11 @@ const resolvers = {
       }
     },
 
-    async deleteProjectPlanner(parent, args, { apyload }) {
+    async deleteProjectPlanner(parent, args, { payload }) {
       try {
         if (payload.auth.role === "planner") {
           const data = await connect.query(
-            "DELETE FROM project WHERE id=$1 RETURNING *",
+            "DELETE FROM projects WHERE id=$1 RETURNING *",
             [args.id]
           );
           return data.rows[0];
