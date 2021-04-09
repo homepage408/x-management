@@ -12,7 +12,7 @@ const resolvers = {
             INNER JOIN member_project 
             ON projects.id = member_project.project_id 
             LEFT JOIN notes ON projects.id=notes.project_id 
-            WHERE status IN($1,$2,$3,$4,$5,$6)`,
+            WHERE status IN($1,$2,$3,$4,$5,$6,$7)`,
             [
               "submit",
               "approve",
@@ -20,6 +20,7 @@ const resolvers = {
               "return",
               "return to worker",
               "complete",
+              "done"
             ]
           );
           return data.rows;

@@ -11,7 +11,7 @@ const resolvers = {
             member_project.project_id from projects 
             INNER JOIN member_project ON projects.id = member_project.project_id 
             LEFT JOIN notes ON projects.id = notes.project_id 
-            WHERE created_by=$1 AND status IN($2,$3,$4,$5,$6)`,
+            WHERE created_by=$1 AND status IN($2,$3,$4,$5,$6,$7)`,
             [
               payload.auth.id,
               "submit",
