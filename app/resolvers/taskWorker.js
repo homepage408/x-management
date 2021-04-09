@@ -6,13 +6,13 @@ const resolvers = {
       try {
         if (payload.auth.role === "worker") {
           let findTask = await connect.query(
-            `SELECT tasks.id,tasks.project_id, tasks.task, tasks.is_check,
-            projects.id, projects.title,projects.description, projects.status,projects.attachment,
-            member_project.user_id,member_project.project_id
-            from tasks 
-            INNER JOIN projects ON tasks.project_id = projects.id
-            LEFT JOIN member_project ON projects.id = member_project.project_id;
-            ;`
+            `select member_project.user_id, member_project.project_id,
+            projects.title,projects.description, projects.status,projects.attachment,tasks.project_id, tasks.task, tasks.is_check 
+            FROM member_project
+            INNER JOIN projects ON projects.id = member_project.project_id
+            INNER JOIN tasks ON projects.id = tasks.project_id
+            WHERE member_project.user_id = $1;
+            ;`,[payload.auth.id]
           );
           return findTask.rows;
         } else {
