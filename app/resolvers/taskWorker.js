@@ -7,7 +7,7 @@ const resolvers = {
         if (payload.auth.role === "worker") {
           let findTask = await connect.query(
             `select member_project.user_id, member_project.project_id,
-            projects.title,projects.description, projects.status,projects.attachment,tasks.project_id, tasks.task, tasks.is_check 
+            projects.title,projects.description, projects.status,projects.attachment,tasks.project_id, tasks.task, tasks.is_check,tasks.id
             FROM member_project
             INNER JOIN projects ON projects.id = member_project.project_id
             INNER JOIN tasks ON projects.id = tasks.project_id
